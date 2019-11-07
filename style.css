@@ -21,16 +21,20 @@ span {
     color: rgb(214, 214, 214);
 }
 
+table {
+    outline: 1px solid blue;
+}
+
 th {
     padding: 5px;
-    border-color: rgb(189, 189, 189);
+    /* border-color: rgb(189, 189, 189);
     border-style: dashed;
-    border-width: 0px 0px 2px 0px;
+    border-width: 0px 0px 2px 0px; */
 }
 
 td {
     padding: 5px;
-    border-color: rgb(189, 189, 189);
+    /* border-color: rgb(189, 189, 189);
     border-style: dashed;
-    border-width: 0px 2px 0px 2px;
+    border-width: 0px 2px 0px 2px; */
 }

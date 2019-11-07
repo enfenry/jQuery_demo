@@ -12,6 +12,7 @@ $(document).ready(function () {
     // EXAMPLE 1
     // ---------------------------------------------------------------------------------------------------
 
+
     // SELECT AN HTML ELEMENT BY ITS CLASS BY PUTTING A . BEFORE THE CLASSNAME
     var container = $(".container");
 
@@ -36,7 +37,6 @@ $(document).ready(function () {
             id: id,
             name: id
         })
-
         return newDiv;
     }
 
@@ -49,6 +49,8 @@ $(document).ready(function () {
     // THE .text() METHOD SETS AN HTML ELEMENT'S INNER TEXT TO WHATEVER WE GIVE IT.
     // IN THIS CASE, WE WILL SET ITS TEXT TO WHATEVER ITS ID ATTRIBUTE IS.
     rowEx1.text(idEx1);
+
+    // <div class="row" id="the-value-of-id" name="the-value-of-id">example-1</div>
 
     // WE CAN ADD OUR JQUERY-CREATED ROW TO OUR DOM
     // HERE, .append() WILL ADD OUR ROW AS THE LAST CHILD ELEMENT WITHIN THE PARENT, mainContainer
@@ -66,6 +68,7 @@ $(document).ready(function () {
     // WE COULD USE .html() TO SET AN ENTIRE HTML ELEMENT WITHIN IT
     // IN THIS CASE, A SPAN TAG WITH TEXT INSIDE READING THE ID ATTRIBUTE OF OUR ROW
     rowEx2.html(`<span> ${idEx2} </span>`)
+    rowEx2.html("<span> " + idEx2 + " </span>")
 
     // WITH OUR NEW ROW, USING .prepend(),
     // WE CAN ADD IT AS THE FIRST CHILD ELEMENT OF OUR PARENT CONTAINER 
@@ -131,12 +134,12 @@ $(document).ready(function () {
     // WE CAN STACK METHODS IN ONE LINE IF WE LIKE
     buttonEx5
         .text(idEx5)
-        .attr("id", "button-example-5")
+        .attr("id", "button-example-5");
 
     // THE .on("click",) METHOD WILL RUN A CALLBACK FUNCTION WHENEVER THE HTML ELEMENT IS CLICKED
     buttonEx5.on("click", function (event) {
         // event.preventDefault() WILL STOP THE DEFAULT ACTION OF ATTEMPTING TO SEND DATA / RELOAD THE PAGE
-        event.preventDefault()
+        event.preventDefault();
 
         // WE CAN GET OUR INPUT VALUE USING. val()
         var valEx5 = inputEx5.val();
@@ -335,37 +338,233 @@ $(document).ready(function () {
 
     var rowEx9 = createRow("example-9");
     var idEx9 = rowEx9.attr("id");
-    rowEx9.text(idEx9);
+    rowEx9.html(idEx9);
 
-    function createTable(id, rows, columns) {
-        var newTable = $("<table>").attr("id", id);
-        var trHeader = $("<tr>");
-        var tdCount = 0;
+    var buttonEx9 = $("<button>")
+        .attr({
+            class: "dynamic-example",
+            id: "button-example-9",
+            type: "button"
+        })
+        .text("Click me!")
+        .on("click", showClicked);
 
-        for (var i = 0; i < rows; i++) {
-            var trEx9 = $("<tr>");
-            
-            for (var j = 0; j < columns; j++) {
-                tdCount++;
-
-                if (i === 0) {
-                    var newTh = $("<th>").text(`Column ${j}`);
-                    trHeader.append(newTh);
-                }
-                var newTd = $("<td>").text(tdCount);
-                trEx9.append(newTd);
-            }
-            newTable.append(trEx9);
-        }
-        newTable.prepend(trHeader);
-
-        return newTable;
+    function showClicked(event) {
+        event.preventDefault()
+        $(this).text("I've been clicked!")
     }
 
-    var tableEx9 = createTable("table-example-9", 2, 9);
+    rowEx9.append(buttonEx9);
 
-    rowEx9.html(tableEx9);
+    // THIS CONSOLE LOG RETURNS "undefined"
+    // SELECTING OUR ROW BY ITS ID WILL NOT WORK SINCE IT'S DYNAMICALLY GENERATED IN OUR .JS FILE
+    console.log($("#example-9").attr("id"));
 
     mainContainer.append(rowEx9);
 
+    // ---------------------------------------------------------------------------------------------------
+    // EXAMPLE 10
+    // ---------------------------------------------------------------------------------------------------
+    // return;
+
+    // IN THIS EXAMPLE, WE'LL REFERENCE OUR ROW THAT ALREADY EXISTED IN THE HTML
+    $("#example-10").html("<p>" + $("#example-10").attr("id") + "</p>");
+    // THE FOLLOWING LINE DOES THE SAME THING
+    // $("#example-10").html(`<p>${$("#example-10").attr("id")}</p>`);
+
+    var buttonEx10 = $("<button>")
+        .attr({
+            class: "dynamic-example",
+            id: "button-example-10",
+            type: "button"
+        })
+        .text("Click me!")
+        .on("click", showClicked);
+
+    $("#example-10").append(buttonEx10);
+
+    // THIS CONSOLE LOG RETURNS "example-10"
+    console.log($("#example-10").attr("id"));
+
+    // .clone() METHOD WILL CREATE A DEEP CLONE OF AN ELEMENT
+    // IT TAKES 2 PARAMETERS, BY DEFAULT THESE ARE FALSE
+    // THE FIRST PARAMETER COPIES EVENT HANDLERS/DATA OF THE ELEMENT TO OUR CLONE
+    // THE SECOND PARAMETER COPIES EVENT HANDLERS/DATA TO THE CHILD ELEMENTS TO OUR CLONE'S CHILD ELEMENTS
+    var rowEx10 = $("#example-10").clone(true, true);
+
+    // WE WILL APPEND OUR CLONE TO THE DOCUMENT AND REMOVE THE ORIGINAL FROM IT
+    mainContainer.append(rowEx10);
+    $("#example-10").detach();
+
+    // ---------------------------------------------------------------------------------------------------
+    // EXAMPLE 11
+    // ---------------------------------------------------------------------------------------------------
+    // return;
+
+    // HERE WE ARE USING A CLONE OF OUR LAST ROW
+    // WITHOUT HAVING SET THOSE PARAMETERS TO TRUE, THE .on("click",) FUNCTION FOR THE BUTTON WON'T RUN
+    var rowEx11 = $("#example-10").clone(false, false);
+
+    // WE CAN .find() THE FIRST CHILD ELEMENT OF THE ROW THAT IS A BUTTON AND RESET THE TEXT
+    rowEx11.find("button").text("Click Me! I don't work");
+
+    // OR WE CAN USE .children() TO SELECT ALL CHILD ELEMENTS OF THE ROW THAT IS A BUTTON 
+    // (IN THIS CASE WE ONLY HAVE ONE) AND RESET THEIR TEXT
+    rowEx11.children("button").text("Click Me! I don't work");
+
+    rowEx11.find("p").text("example-11");
+
+    mainContainer.append(rowEx11);
+
+    // ---------------------------------------------------------------------------------------------------
+    // EXAMPLE 12
+    // ---------------------------------------------------------------------------------------------------
+    // return;
+
+    var rowEx12 = createRow("example-12");
+    var idEx12 = rowEx12.attr("id");
+    rowEx12.html(idEx12);
+
+    //  HERE, WE RECREATE EXAMPLE 9, BUT WE HAVE A DIFFERENT BUTTON THAT CREATES OUR "CLICK ME!" BUTTON
+
+    function createBrokenClickMe(event) {
+        event.preventDefault();
+
+        var buttonEx12 = $("<button>")
+            .attr({
+                class: "dynamic-example",
+                id: "button-example-12",
+                type: "button"
+            })
+            .text("Click me! I also won't work");
+
+        // SELECT THE PARENT OF THIS CREATE BUTTON
+        $(this).parent().append(buttonEx12);
+    }
+
+    // WE DON'T ADD OUR ON CLICK EVENT TO THE BUTTON WHEN DEFINING IT
+    var createButtonEx12 = $("<button>")
+        .attr({
+            class: "create-button",
+            id: "create-button-12",
+            type: "button"
+        })
+        .text('Create "Click Me!" Button')
+        .on("click", createBrokenClickMe);
+
+    // IF WE WANTED TO ADD OUR ON CLICK FUNCTION LATER, THE BELOW APPROACH WON'T WORK
+    // HERE WE ARE SELECTING BY THE BUTTON'S ID
+    // THE SELECTOR IS INVALID BECAUSE WE DYNAMICALLY CREATED THE BUTTON IN OUR createBrokenClickMe FUNCTION
+    $("#button-example-12").on("click", function (event) {
+        event.preventDefault();
+        $(this).text("I've been clicked!");
+    });
+
+    rowEx12.append(createButtonEx12);
+
+    mainContainer.append(rowEx12);
+
+    // ---------------------------------------------------------------------------------------------------
+    // EXAMPLE 13
+    // ---------------------------------------------------------------------------------------------------
+    // return;
+
+    var rowEx13 = createRow("example-13");
+    var idEx13 = rowEx13.attr("id");
+    rowEx13.html(idEx13);
+
+    function createWorkingClickMe(event) {
+        event.preventDefault();
+
+        var buttonEx13 = $("<button>")
+            .attr({
+                class: "dynamic-example",
+                id: "button-example-13",
+                type: "button"
+            })
+            .text("Click me! I WILL work");
+
+        // SELECT THE PARENT OF THIS CREATE BUTTON
+        $(this).parent().append(buttonEx13);
+    }
+
+    // WE DON'T ADD OUR ON CLICK EVENT TO THE BUTTON WHEN DEFINING IT
+    var createButtonEx13 = $("<button>")
+        .attr({
+            class: "create-button",
+            id: "create-button-13",
+            type: "button"
+        })
+        .text('Create "Click Me!" Button')
+        .on("click", createWorkingClickMe);
+
+    // IF WE WANTED TO ADD OUR ON CLICK FUNCTION LATER, THE BELOW APPROACH WILL WORK
+    // HERE WE ARE SELECTING THE ENTIRE DOCUMENT AND USING .find() BY THE BUTTON'S ID
+    // THIS IS VALID EVEN THOUGH WE DYNAMICALLY CREATED THE BUTTON IN OUR createWorkingClickMe FUNCTION
+    $(document).on("click", "#button-example-13", function (event) {
+        event.preventDefault();
+        $(this).text("I've been clicked!");
+    });
+
+    rowEx13.append(createButtonEx13);
+
+    mainContainer.append(rowEx13);
+
+    // ---------------------------------------------------------------------------------------------------
+    // EXAMPLE 14
+    // ---------------------------------------------------------------------------------------------------
+    // return;
+
+    var trHeader = $("<tr>");
+    var tdCount = 0;
+
+    for (var i = 0; i < 2; i++) {
+        var tr = $("<tr>");
+
+        for (var j = 0; j < 9; j++) {
+            tdCount++;
+
+            if (i === 0) {
+                var th = $("<th>").text(`Column ${j}`);
+                trHeader.append(th);
+            }
+            var td = $("<td>").text(tdCount);
+            tr.append(td);
+        }
+
+        $("#table-example-14").append(tr);
+    }
+    $("#table-example-14").prepend(trHeader);
+
+
+    console.log($("#table-example-14").attr("id"));
+    console.log($("#table-example-14").children());
+
+    // SELECT PARENT TABLE, THEN 1ST CHILD ELEMENT TR FROM TABLE'S CHILD ELEMENTS
+    $("#table-example-14 tr:nth-child(1)")
+    // EDIT CSS PROPERTIES OF ELEMENT USING .css()
+        .css({
+            "border-color": "rgb(189, 189, 189)",
+            "border-style": "dashed",
+            "border-width": "0px 2px 0px 2px"
+        })
+        .append(" - Selected!");
+
+// SELECT TR ELEMENTS, THEN 3RD CHILD ELEMENT TR FROM TABLE'S CHILD ELEMENTS
+        $("tr td:nth-child(3n)")
+        .css({
+            "border-color": "rgb(189, 189, 189)",
+            "border-style": "dashed",
+            "border-width": "0px 2px 0px 2px"
+        })
+        .append(" - Also Selected!");
+
+
+    var rowEx14 = $("#example-14");
+    rowEx14.detach();
+    var newRowEx14 = rowEx14.clone(true,true);
+    
+    mainContainer.append(newRowEx14);
+
 });
+
