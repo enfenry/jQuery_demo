@@ -1,0 +1,22 @@
+.row {
+    outline: 1px solid black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+span {
+    outline: 2px dotted purple;
+}
+
+.hidden {
+    visibility: hidden !important;
+}
+
+.fixed-width {
+    width:100px;
+}
+
+.dark {
+    background-color: rgb(41, 41, 41);
+    color: rgb(214, 214, 214);
+}
