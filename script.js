@@ -327,4 +327,45 @@ $(document).ready(function () {
 
     mainContainer.append(rowEx8);
 
+
+    // ---------------------------------------------------------------------------------------------------
+    // EXAMPLE 9
+    // ---------------------------------------------------------------------------------------------------
+    // return;
+
+    var rowEx9 = createRow("example-9");
+    var idEx9 = rowEx9.attr("id");
+    rowEx9.text(idEx9);
+
+    function createTable(id, rows, columns) {
+        var newTable = $("<table>").attr("id", id);
+        var trHeader = $("<tr>");
+        var tdCount = 0;
+
+        for (var i = 0; i < rows; i++) {
+            var trEx9 = $("<tr>");
+            
+            for (var j = 0; j < columns; j++) {
+                tdCount++;
+
+                if (i === 0) {
+                    var newTh = $("<th>").text(`Column ${j}`);
+                    trHeader.append(newTh);
+                }
+                var newTd = $("<td>").text(tdCount);
+                trEx9.append(newTd);
+            }
+            newTable.append(trEx9);
+        }
+        newTable.prepend(trHeader);
+
+        return newTable;
+    }
+
+    var tableEx9 = createTable("table-example-9", 2, 9);
+
+    rowEx9.html(tableEx9);
+
+    mainContainer.append(rowEx9);
+
 });

@@ -20,3 +20,17 @@ span {
     background-color: rgb(41, 41, 41);
     color: rgb(214, 214, 214);
 }
+
+th {
+    padding: 5px;
+    border-color: rgb(189, 189, 189);
+    border-style: dashed;
+    border-width: 0px 0px 2px 0px;
+}
+
+td {
+    padding: 5px;
+    border-color: rgb(189, 189, 189);
+    border-style: dashed;
+    border-width: 0px 2px 0px 2px;
+}
